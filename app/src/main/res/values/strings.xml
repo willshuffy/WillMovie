@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">WillMovie</string>
+    <string name="hint_search_text">search by movie name</string>
 </resources>
