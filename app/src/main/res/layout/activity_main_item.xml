@@ -20,18 +20,22 @@
 
         <TextView
             android:id="@+id/tv_title"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:ellipsize="marquee"
             android:text="Batman V Superman : Down of Justice"
             android:textSize="@dimen/text_title"
-            android:textStyle="bold"/>
+            android:textStyle="bold"
+            android:singleLine="true" />
 
         <TextView
             android:id="@+id/tv_overview"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Begining the events of Justice League, ..."
-            android:textSize="@dimen/text_subheading"/>
+            android:ellipsize="marquee"
+            android:text="Begining the events of Justice League, the collective Super Hero"
+            android:textSize="@dimen/text_subheading"
+            android:singleLine="true" />
 
         <TextView
             android:id="@+id/tv_release_date"

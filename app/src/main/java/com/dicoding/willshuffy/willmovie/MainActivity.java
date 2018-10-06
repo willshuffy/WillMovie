@@ -12,6 +12,7 @@ import com.dicoding.willshuffy.willmovie.adapter.SearchAdapter;
 import com.dicoding.willshuffy.willmovie.mvp.MainPresenter;
 import com.dicoding.willshuffy.willmovie.mvp.MainView;
 import com.dicoding.willshuffy.willmovie.mvp.model.upcoming.ResultsItem;
+import com.dicoding.willshuffy.willmovie.utils.DateTime;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,6 +64,9 @@ public class MainActivity extends AppCompatActivity implements MainView {
             item.setTitle("Title"+i);
             item.setOverview("Overview"+i);
             item.setReleaseDate("2018-03-19");
+            item.setTitle("ini untuk judul movie yang paling panjang karakternya"+i);
+            item.setOverview("ini untuk overview movie yang paling panjang karakternya"+i);
+            item.setReleaseDate(DateTime.getLongDate("2018-03-19"+i));
             list.add(item);
         }
         adapter.replaceAll(list);
