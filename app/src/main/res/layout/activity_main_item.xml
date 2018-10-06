@@ -10,7 +10,7 @@
         android:layout_width="45dp"
         android:layout_height="68dp"
         android:scaleType="centerCrop"
-        android:src="@drawable/placeholder"/>
+        android:src="@drawable/placeholder" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -18,24 +18,24 @@
         android:orientation="vertical"
         android:paddingLeft="@dimen/def_spacing">
 
-        <TextView
+        <com.dicoding.willshuffy.willmovie.utils.CustomTextView
             android:id="@+id/tv_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ellipsize="marquee"
+            android:singleLine="true"
             android:text="Batman V Superman : Down of Justice"
             android:textSize="@dimen/text_title"
-            android:textStyle="bold"
-            android:singleLine="true" />
+            android:textStyle="bold" />
 
-        <TextView
+        <com.dicoding.willshuffy.willmovie.utils.CustomTextView
             android:id="@+id/tv_overview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ellipsize="marquee"
+            android:singleLine="true"
             android:text="Begining the events of Justice League, the collective Super Hero"
-            android:textSize="@dimen/text_subheading"
-            android:singleLine="true" />
+            android:textSize="@dimen/text_subheading" />
 
         <TextView
             android:id="@+id/tv_release_date"
@@ -43,7 +43,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/def_spacing"
             android:text="Monday, March 19, 2018"
-            android:textSize="@dimen/text_caption"/>
+            android:textSize="@dimen/text_caption" />
 
 
     </LinearLayout>

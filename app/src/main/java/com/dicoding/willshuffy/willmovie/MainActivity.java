@@ -20,7 +20,8 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static android.support.v7.widget.RecyclerView.VERTICAL;
+import static android.support.v7.widget.DividerItemDecoration.VERTICAL;
+
 
 public class MainActivity extends AppCompatActivity implements MainView {
 

@@ -7,6 +7,7 @@ import android.widget.TextView;
 
 import com.dicoding.willshuffy.willmovie.R;
 import com.dicoding.willshuffy.willmovie.mvp.model.upcoming.ResultsItem;
+import com.dicoding.willshuffy.willmovie.utils.CustomTextView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -17,7 +18,7 @@ public class SearchViewHolder extends RecyclerView.ViewHolder {
     ImageView img_poster;
 
     @BindView(R.id.tv_title)
-    TextView tv_title;
+    CustomTextView tv_title;
 
     @BindView(R.id.tv_overview)
     TextView tv_overview;
