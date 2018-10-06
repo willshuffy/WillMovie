@@ -62,6 +62,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
         list.clear();
         for (int i = 0; i<= 10; i++){
             ResultsItem item=new ResultsItem();
+            item.setPosterPath("/cGOPbv9wA5gEejkUN892JrveARt.jpg");
             item.setTitle("Title"+i);
             item.setOverview("Overview"+i);
             item.setReleaseDate("2018-03-19");

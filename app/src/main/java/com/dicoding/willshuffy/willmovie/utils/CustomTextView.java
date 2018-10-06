@@ -1,3 +1,6 @@
+
+
+
 package com.dicoding.willshuffy.willmovie.utils;
 
 import android.annotation.TargetApi;
@@ -38,11 +41,11 @@ public class CustomTextView extends TextView {
 
         if (attrs !=null){
             TypedArray typedArray=getContext().obtainStyledAttributes(attrs, R.styleable.CustomTextView);
-            String fontName = typedArray.getString(R.styleable.CustomTextView_font);
+            String fontName = typedArray.getString(R.styleable.CustomTextView_font_name);
 
             try {
                 if (fontName !=null){
-                    Typeface myTypeface = Typeface.createFromAsset(getContext().getAssets(), "font/" + fontName);
+                    Typeface myTypeface = Typeface.createFromAsset(getContext().getAssets(), "fonts/" + fontName);
                     setTypeface(myTypeface);
                 }
             }catch (Exception e){
@@ -50,8 +53,8 @@ public class CustomTextView extends TextView {
             }
 
             typedArray.recycle();
-        }
+         }
 
-    }
+        }
 
 }

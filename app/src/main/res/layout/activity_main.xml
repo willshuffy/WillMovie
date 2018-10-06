@@ -9,7 +9,7 @@
     android:paddingBottom="@dimen/layout_vertical_margin"
     android:paddingRight="@dimen/layout_horizontal_margin"
     android:paddingLeft="@dimen/layout_horizontal_margin"
-    tools:context=".MainActivity">
+    tools:context="com.dicoding.willshuffy.willmovie.MainActivity">
 
 
     <LinearLayout
