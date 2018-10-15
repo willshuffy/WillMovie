@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:padding="@dimen/def_clear_space">
+
+    <com.dicoding.willshuffy.willmovie.utils.CustomTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/def_spacing"
+        android:text="@string/text_overview"
+        android:textSize="@dimen/text_heading"
+        app:font_name="alanya.regular.ttf"/>
+
+    <com.dicoding.willshuffy.willmovie.utils.CustomTextView
+        android:id="@+id/tv_overview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/movie_overview"
+        android:textSize="@dimen/text_subheading"
+        app:font_name="roboto-condensed.light.ttf"/>
+
+</LinearLayout>

@@ -8,4 +8,5 @@
     <dimen name="text_subheading">16sp</dimen>
     <dimen name="text_caption">12sp</dimen>
     <dimen name="spacing_padding">20dp</dimen>
+    <dimen name="text_heading">40sp</dimen>
 </resources>

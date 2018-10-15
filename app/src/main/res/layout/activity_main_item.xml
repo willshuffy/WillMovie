@@ -25,7 +25,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ellipsize="marquee"
-            android:text="Batman V Superman : Down of Justice"
+            android:text="@string/movie_title"
             android:textSize="@dimen/text_title"
             app:font_name="alanya.regular.ttf"
             android:singleLine="true" />
@@ -35,7 +35,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ellipsize="marquee"
-            android:text="Begining the events of Justice League, the collective Super Hero"
+            android:text="@string/movie_overview"
             android:textSize="@dimen/text_subheading"
             app:font_name="roboto-condensed.light.ttf"
             android:singleLine="true" />
@@ -45,7 +45,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/def_spacing"
-            android:text="Monday, Mar 19, 2018"
+            android:text="@string/movie_longdate"
             android:textSize="@dimen/text_caption" />
 
 
