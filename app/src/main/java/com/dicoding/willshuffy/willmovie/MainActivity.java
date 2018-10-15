@@ -8,12 +8,14 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.dicoding.willshuffy.willmovie.adapter.SearchAdapter;
 import com.dicoding.willshuffy.willmovie.mvp.MainPresenter;
 import com.dicoding.willshuffy.willmovie.mvp.MainView;
 import com.dicoding.willshuffy.willmovie.mvp.model.upcoming.ResultsItem;
 import com.dicoding.willshuffy.willmovie.utils.DateTime;
+import com.mancj.materialsearchbar.MaterialSearchBar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,16 +26,13 @@ import butterknife.ButterKnife;
 import static android.support.v7.widget.DividerItemDecoration.VERTICAL;
 
 
-public class MainActivity extends AppCompatActivity implements MainView {
+public class MainActivity extends AppCompatActivity implements MainView, MaterialSearchBar.OnSearchActionListener {
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
 
-    @BindView(R.id.et_search)
-    EditText et_search;
-
-    @BindView(R.id.btn_search)
-    Button btn_search;
+    @BindView(R.id.searchBar)
+    MaterialSearchBar searchBar;
 
     @BindView(R.id.rv_movielist)
     RecyclerView rv_movielist;
@@ -49,6 +48,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
 
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
+        searchBar.setOnSearchActionListener(this);
 
         MainPresenter presenter=new MainPresenter(this);
 
@@ -77,5 +77,21 @@ public class MainActivity extends AppCompatActivity implements MainView {
             list.add(item);
         }
         adapter.replaceAll(list);
+    }
+
+    @Override
+    public void onSearchStateChanged(boolean enabled) {
+
+    }
+
+    @Override
+    public void onSearchConfirmed(CharSequence text) {
+        Toast.makeText(this, "Searching: "+text, Toast.LENGTH_SHORT).show();
+
+    }
+
+    @Override
+    public void onButtonClicked(int buttonCode) {
+
     }
 }
