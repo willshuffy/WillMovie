@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="?android:attr/selectableItemBackground"
     android:orientation="horizontal"
     android:padding="@dimen/def_clear_space">
 
@@ -24,20 +25,20 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ellipsize="marquee"
-            android:maxLines="1"
             android:text="Batman V Superman : Down of Justice"
             android:textSize="@dimen/text_title"
-            app:font_name="alanya.regular.ttf" />
+            app:font_name="alanya.regular.ttf"
+            android:singleLine="true" />
 
         <com.dicoding.willshuffy.willmovie.utils.CustomTextView
             android:id="@+id/tv_overview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ellipsize="marquee"
-            android:maxLines="1"
             android:text="Begining the events of Justice League, the collective Super Hero"
             android:textSize="@dimen/text_subheading"
-            app:font_name="roboto-condensed.light.ttf"/>
+            app:font_name="roboto-condensed.light.ttf"
+            android:singleLine="true" />
 
         <TextView
             android:id="@+id/tv_release_date"

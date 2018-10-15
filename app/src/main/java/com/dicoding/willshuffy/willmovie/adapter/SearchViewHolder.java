@@ -1,5 +1,6 @@
 package com.dicoding.willshuffy.willmovie.adapter;
 
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
@@ -8,6 +9,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.dicoding.willshuffy.willmovie.BuildConfig;
+import com.dicoding.willshuffy.willmovie.DetailActivity;
 import com.dicoding.willshuffy.willmovie.R;
 import com.dicoding.willshuffy.willmovie.mvp.model.upcoming.ResultsItem;
 import com.dicoding.willshuffy.willmovie.utils.CustomTextView;
@@ -48,6 +50,15 @@ public class SearchViewHolder extends RecyclerView.ViewHolder {
                         .placeholder(R.drawable.placeholder)
                         .centerCrop())
                 .into(img_poster);
+
+        itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(itemView.getContext(), DetailActivity.class);
+                itemView.getContext().startActivity(intent);
+
+            }
+        });
 
     }
 
