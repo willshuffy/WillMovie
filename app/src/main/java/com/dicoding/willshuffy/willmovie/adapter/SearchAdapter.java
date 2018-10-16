@@ -6,7 +6,8 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import com.dicoding.willshuffy.willmovie.R;
-import com.dicoding.willshuffy.willmovie.mvp.model.upcoming.ResultsItem;
+import com.dicoding.willshuffy.willmovie.mvp.model.search.ResultsItem;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,9 +21,19 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchViewHolder> {
 
     }
 
+    public void clearAll(){
+        list.clear();
+        notifyDataSetChanged();
+    }
+
     public void replaceAll(List<ResultsItem>items){
         list.clear();
         list=items;
+        notifyDataSetChanged();
+    }
+
+    public void updateData(List<ResultsItem>items){
+        list.addAll(items);
         notifyDataSetChanged();
     }
 
