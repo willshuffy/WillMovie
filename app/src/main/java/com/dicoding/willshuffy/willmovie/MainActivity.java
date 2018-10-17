@@ -1,5 +1,6 @@
 package com.dicoding.willshuffy.willmovie;
 
+import android.support.annotation.NonNull;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -53,13 +54,16 @@ public class MainActivity extends AppCompatActivity
     @BindView(R.id.rv_movielist)
     RecyclerView rv_movielist;
 
-    private String movie_title= "";
+
     private SearchAdapter adapter;
     private List<ResultsItem> list=new ArrayList<>();
 
     private Call<SearchModel> apiCall;
     private APIClient apiClient;
+
+    private String movie_title= "";
     private int currentPage =1;
+    private int totalPages =1;
 
 
     @Override
@@ -67,7 +71,7 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        ButterKnife.bind(this);
+        ButterKnife.bind(   this);
         setSupportActionBar(toolbar);
         search_bar.setOnSearchActionListener(this);
         swipe_refresh.setOnRefreshListener(this);
@@ -78,7 +82,41 @@ public class MainActivity extends AppCompatActivity
         MainPresenter presenter=new MainPresenter(this);
 
         setupList();
+        setupListScrollListener();
         loadData();
+
+    }
+
+    private void setupListScrollListener() {
+        rv_movielist.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            /**
+             * Callback method to be invoked when the RecyclerView has been scrolled. This will be
+             * called after the scroll has completed.
+             * <p>
+             * This callback will also be called if visible item range changes after a layout
+             * calculation. In that case, dx and dy will be 0.
+             *
+             * @param recyclerView The RecyclerView which scrolled.
+             * @param dx           The amount of horizontal scroll.
+             * @param dy           The amount of vertical scroll.
+             */
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
+                LinearLayoutManager layoutManager=(LinearLayoutManager)recyclerView.getLayoutManager();
+
+                int totalItems=layoutManager.getItemCount();
+                int visibleItems=layoutManager.getChildCount();
+                int pastVisibleItems=layoutManager.findFirstCompletelyVisibleItemPosition();
+
+                if (pastVisibleItems + visibleItems >= totalItems){
+                    if (currentPage < totalPages) currentPage++;
+                    startRefreshing();
+                }
+
+            }
+        });
 
     }
 
@@ -98,6 +136,7 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onResponse(Call<SearchModel> call, Response<SearchModel> response) {
                 if (response.isSuccessful()){
+                    totalPages=response.body().getTotalPages();
                     List<ResultsItem> items = response.body().getResults();
 
                     if (currentPage>1)adapter.updateData(items);
@@ -179,8 +218,18 @@ public class MainActivity extends AppCompatActivity
     public void onRefresh() {
 
         currentPage=1;
+        totalPages=1;
 
+        stopRefreshing();
+        startRefreshing();
+
+    }
+
+    private void startRefreshing() {
+
+        if (swipe_refresh.isRefreshing()) return;
         swipe_refresh.setRefreshing(true);
+
         if (movie_title.equals("")) loadData();
         else loadData(movie_title);
 
