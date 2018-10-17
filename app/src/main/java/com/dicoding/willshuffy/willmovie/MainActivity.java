@@ -5,8 +5,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -33,7 +35,11 @@ import retrofit2.Response;
 import static android.support.v7.widget.DividerItemDecoration.VERTICAL;
 
 
-public class MainActivity extends AppCompatActivity implements MainView, MaterialSearchBar.OnSearchActionListener, SwipeRefreshLayout.OnRefreshListener {
+public class MainActivity extends AppCompatActivity
+        implements MainView,
+        MaterialSearchBar.OnSearchActionListener,
+        SwipeRefreshLayout.OnRefreshListener,
+        PopupMenu.OnMenuItemClickListener{
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -65,6 +71,8 @@ public class MainActivity extends AppCompatActivity implements MainView, Materia
         setSupportActionBar(toolbar);
         search_bar.setOnSearchActionListener(this);
         swipe_refresh.setOnRefreshListener(this);
+        search_bar.inflateMenu(R.menu.main);
+        search_bar.getMenu().setOnMenuItemClickListener(this);
 
         apiClient = new APIClient();
         MainPresenter presenter=new MainPresenter(this);
@@ -172,6 +180,7 @@ public class MainActivity extends AppCompatActivity implements MainView, Materia
 
         currentPage=1;
 
+        swipe_refresh.setRefreshing(true);
         if (movie_title.equals("")) loadData();
         else loadData(movie_title);
 
@@ -181,4 +190,23 @@ public class MainActivity extends AppCompatActivity implements MainView, Materia
         if (swipe_refresh.isRefreshing()) swipe_refresh.setRefreshing(false);
     }
 
+    /**
+     * This method will be invoked when a menu item is clicked if the item
+     * itself did not already handle the event.
+     *
+     * @param item the menu item that was clicked
+     * @return {@code true} if the event was handled, {@code false}
+     * otherwise
+     */
+    @Override
+    public boolean onMenuItemClick(MenuItem item) {
+
+       switch (item.getItemId()){
+           case R.id.mn_refresh:
+               onRefresh();
+               break;
+       }
+
+        return false;
+    }
 }

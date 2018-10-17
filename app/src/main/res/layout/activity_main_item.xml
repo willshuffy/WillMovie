@@ -26,7 +26,7 @@
             android:layout_height="wrap_content"
             android:ellipsize="marquee"
             android:text="@string/movie_title"
-            android:textSize="@dimen/text_title"
+            android:textSize="@dimen/text_heading"
             app:font_name="alanya.regular.ttf"
             android:singleLine="true" />
 
