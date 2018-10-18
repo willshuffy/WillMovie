@@ -14,6 +14,7 @@ import com.dicoding.willshuffy.willmovie.api.APIClient;
 import com.dicoding.willshuffy.willmovie.mvp.model.detail.DetailModel;
 import com.dicoding.willshuffy.willmovie.utils.DateTime;
 
+import java.text.NumberFormat;
 import java.util.List;
 
 import butterknife.BindView;
@@ -42,9 +43,6 @@ public class DetailActivity extends AppCompatActivity {
     @BindView(R.id.tv_vote)
     TextView tv_vote;
 
-    @BindView(R.id.tv_overview)
-    TextView tv_overview;
-
     @BindViews({
             R.id.img_star1,
             R.id.img_star2,
@@ -54,8 +52,32 @@ public class DetailActivity extends AppCompatActivity {
     })
     List<ImageView> img_vote;
 
+    @BindView(R.id.tv_genres)
+    TextView tv_genres;
+
+    @BindView(R.id.tv_overview)
+    TextView tv_overview;
+
+    @BindView(R.id.img_poster_belongs)
+    ImageView img_poster_belongs;
+
+    @BindView(R.id.tv_title_belongs)
+    TextView tv_title_belongs;
+
+    @BindView(R.id.tv_budget)
+    TextView tv_budget;
+
+    @BindView(R.id.tv_revenue)
+    TextView tv_revenue;
+
+    @BindView(R.id.tv_companies)
+    TextView tv_companies;
+
+    @BindView(R.id.tv_countries)
+    TextView tv_countries;
+
     private Call<DetailModel> apiCall;
-    private APIClient apiClient;
+    private APIClient apiClient = new APIClient();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +88,6 @@ public class DetailActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        apiClient = new APIClient();
 
         String movie_id = getIntent().getStringExtra(MOVIE_ID);
         loadData(movie_id);
@@ -79,21 +100,23 @@ public class DetailActivity extends AppCompatActivity {
         if (apiCall != null) apiCall.cancel();
     }
 
-    private void loadData(String movie_id){
+    private void loadData(String movie_id) {
 
 
-        apiCall=apiClient.getService().getDetailMovie(movie_id);
+        apiCall = apiClient.getService().getDetailMovie(movie_id);
         apiCall.enqueue(new Callback<DetailModel>() {
             @Override
             public void onResponse(Call<DetailModel> call, Response<DetailModel> response) {
-                if (response.isSuccessful()){
+                if (response.isSuccessful()) {
                     DetailModel item = response.body();
 
-                    getSupportActionBar().setTitle(item.getTitle());
 
                     Glide.with(DetailActivity.this)
                             .load(BuildConfig.BASE_URL_IMG + "w185" + item.getBackdropPath())
-                            .apply(new RequestOptions().centerCrop())
+                            .apply(new RequestOptions()
+                                    .placeholder(R.drawable.placeholder)
+                                    .centerCrop()
+                            )
                             .into(img_backdrop);
 
                     Glide.with(DetailActivity.this)
@@ -107,21 +130,63 @@ public class DetailActivity extends AppCompatActivity {
 
                     tv_release_date.setText(DateTime.getLongDate(item.getReleaseDate()));
                     tv_vote.setText(String.valueOf(item.getVoteAverage()));
+
+                    int size = 0;
+
+                    String genres = "";
+                    size = item.getGenres().size();
+                    for (int i = 0; i < size; i++) {
+                        genres += "√ " + item.getGenres().get(i).getName() + (i + 1 < size ? "\n" : "");
+                    }
+                    tv_genres.setText(genres);
+
                     tv_overview.setText(item.getOverview());
+
+                    if (item.getBelongsToCollection() != null) {
+
+                        Glide.with(DetailActivity.this)
+                                .load(BuildConfig.BASE_URL_IMG + "w92" + item.getBelongsToCollection().getPosterPath())
+                                .apply(new RequestOptions()
+                                        .placeholder(R.drawable.placeholder)
+                                        .centerCrop()
+                                )
+                                .into(img_poster_belongs);
+
+                        tv_title_belongs.setText(item.getBelongsToCollection().getName());
+
+                    }
+
+                    tv_budget.setText("$" + NumberFormat.getIntegerInstance().format(item.getBudget()));
+                    tv_revenue.setText("$" + NumberFormat.getIntegerInstance().format(item.getRevenue()));
+
+                    String companies = "";
+                    size = item.getProductionCompanies().size();
+                    for (int i = 0; i < size; i++){
+                        companies += "√ " + item.getProductionCompanies().get(i).getName() + (i + 1 < size ? "\n" : "");
+                    }
+                    tv_companies.setText(companies);
+
+                    String countries = "";
+                    size = item.getProductionCountries().size();
+                    for (int i = 0; i < size; i++ ){
+                        countries += "√ " + item.getProductionCountries().get(i).getName() + (i + 1 < size ? "\n" : "");
+                    }
+                    tv_countries.setText(countries);
+
 
                     double userRating = item.getVoteAverage() / 2;
                     int integerPart = (int) userRating;
 
                     // fill stars
-                    for (int i =0; i < integerPart; i++){
+                    for (int i = 0; i < integerPart; i++) {
                         img_vote.get(i).setImageResource(R.drawable.ic_star_black_24dp);
                     }
 
                     //fill half stars
-                    if (Math.round(userRating) > integerPart){
+                    if (Math.round(userRating) > integerPart) {
                         img_vote.get(integerPart).setImageResource(R.drawable.ic_star_half_black_24dp);
                     }
-                }else loadFailed();
+                } else loadFailed();
             }
 
             @Override
@@ -133,7 +198,7 @@ public class DetailActivity extends AppCompatActivity {
 
     }
 
-    private void loadFailed(){
+    private void loadFailed() {
         Toast.makeText(DetailActivity.this, "Cannot fetch Detail Movie.\nPlease check your Internet connections!", Toast.LENGTH_SHORT).show();
     }
 

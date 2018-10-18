@@ -1,10 +1,15 @@
 <resources>
     <string name="app_name">WillMovie</string>
     <string name="hint_search_text">search by movie title</string>
-    <string name="movie_title">Batman V Superman : Down of Justice</string>
-    <string name="movie_overview">Begining the events of Justice League, the collective Super Hero</string>
-    <string name="movie_longdate">Monday, Mar 19, 2018</string>
-    <string name="movie_vote">7.1</string>
-    <string name="title_overview">Overview</string>
     <string name="title_refresh_menu">Refresh Movie List</string>
+    <string name="label_release_date">Release Date</string>
+    <string name="label_vote">Vote Average:</string>
+    <string name="label_genres">Movie Genres</string>
+    <string name="label_overview">Overview</string>
+    <string name="label_production_details">Production Details</string>
+    <string name="label_belongs">Belongs To Collection</string>
+    <string name="label_budget">Budget</string>
+    <string name="label_revenue">Revenue</string>
+    <string name="label_companies">Companies</string>
+    <string name="label_countries">Countries</string>
 </resources>
