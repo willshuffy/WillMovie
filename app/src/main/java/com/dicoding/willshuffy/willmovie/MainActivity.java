@@ -85,7 +85,7 @@ public class MainActivity extends AppCompatActivity
 
         setupList();
         setupListScrollListener();
-        loadData("");
+        startRefreshing();
 
     }
 

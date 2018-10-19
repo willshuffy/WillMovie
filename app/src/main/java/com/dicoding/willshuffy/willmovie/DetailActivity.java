@@ -13,7 +13,9 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.dicoding.willshuffy.willmovie.api.APIClient;
 import com.dicoding.willshuffy.willmovie.mvp.model.detail.DetailModel;
+import com.dicoding.willshuffy.willmovie.mvp.model.upcoming.ResultsItem;
 import com.dicoding.willshuffy.willmovie.utils.DateTime;
+import com.google.gson.Gson;
 
 import java.text.NumberFormat;
 import java.util.List;
@@ -27,7 +29,7 @@ import retrofit2.Response;
 
 public class DetailActivity extends AppCompatActivity {
 
-    public static final String MOVIE_ID = "movie_id";
+    public static final String MOVIE_ITEM = "movie_item";
 
     @BindView(R.id.collapsing_toolbar)
     CollapsingToolbarLayout collapsing_toolbar;
@@ -85,6 +87,7 @@ public class DetailActivity extends AppCompatActivity {
 
     private Call<DetailModel> apiCall;
     private APIClient apiClient = new APIClient();
+    private Gson gson = new Gson();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,8 +100,8 @@ public class DetailActivity extends AppCompatActivity {
 
         collapsing_toolbar.setExpandedTitleColor(getResources().getColor(android.R.color.transparent));
 
-        String movie_id = getIntent().getStringExtra(MOVIE_ID);
-        loadData(movie_id);
+        String movie_item = getIntent().getStringExtra(MOVIE_ITEM);
+        loadData(movie_item);
 
     }
 
@@ -108,37 +111,46 @@ public class DetailActivity extends AppCompatActivity {
         if (apiCall != null) apiCall.cancel();
     }
 
-    private void loadData(String movie_id) {
+    private void loadData(String movie_item) {
+        ResultsItem item = gson.fromJson(movie_item, ResultsItem.class);
+        loadDataInServer(String.valueOf(item.getId()));
 
+        getSupportActionBar().setTitle(item.getTitle());
+        tv_title.setText(item.getTitle());
 
-        apiCall = apiClient.getService().getDetailMovie(movie_id);
+        Glide.with(DetailActivity.this)
+                .load(BuildConfig.BASE_URL_IMG + "w185" + item.getBackdropPath())
+                .into(img_backdrop);
+
+        Glide.with(DetailActivity.this)
+                .load(BuildConfig.BASE_URL_IMG + "w154" + item.getPosterPath())
+                .into(img_poster);
+
+        tv_release_date.setText(DateTime.getLongDate(item.getReleaseDate()));
+        tv_vote.setText(String.valueOf(item.getVoteAverage()));
+        tv_overview.setText(item.getOverview());
+
+        double userRating = item.getVoteAverage() / 2;
+        int integerPart = (int) userRating;
+
+        // fill stars
+        for (int i = 0; i < integerPart; i++) {
+            img_vote.get(i).setImageResource(R.drawable.ic_star_black_24dp);
+        }
+
+        //fill half stars
+        if (Math.round(userRating) > integerPart) {
+            img_vote.get(integerPart).setImageResource(R.drawable.ic_star_half_black_24dp);
+        }
+    }
+
+    private void loadDataInServer(String movie_item) {
+        apiCall = apiClient.getService().getDetailMovie(movie_item);
         apiCall.enqueue(new Callback<DetailModel>() {
             @Override
             public void onResponse(Call<DetailModel> call, Response<DetailModel> response) {
                 if (response.isSuccessful()) {
                     DetailModel item = response.body();
-
-                    tv_title.setText(item.getTitle());
-
-                    Glide.with(DetailActivity.this)
-                            .load(BuildConfig.BASE_URL_IMG + "w185" + item.getBackdropPath())
-                            .apply(new RequestOptions()
-                                    .placeholder(R.drawable.placeholder)
-                                    .centerCrop()
-                            )
-                            .into(img_backdrop);
-
-                    Glide.with(DetailActivity.this)
-                            .load(BuildConfig.BASE_URL_IMG + "w154" + item.getPosterPath())
-                            .apply(new RequestOptions()
-                                    .placeholder(R.drawable.placeholder)
-                                    .centerCrop()
-
-                            )
-                            .into(img_poster);
-
-                    tv_release_date.setText(DateTime.getLongDate(item.getReleaseDate()));
-                    tv_vote.setText(String.valueOf(item.getVoteAverage()));
 
                     int size = 0;
 
@@ -149,16 +161,11 @@ public class DetailActivity extends AppCompatActivity {
                     }
                     tv_genres.setText(genres);
 
-                    tv_overview.setText(item.getOverview());
 
                     if (item.getBelongsToCollection() != null) {
 
                         Glide.with(DetailActivity.this)
                                 .load(BuildConfig.BASE_URL_IMG + "w92" + item.getBelongsToCollection().getPosterPath())
-                                .apply(new RequestOptions()
-                                        .placeholder(R.drawable.placeholder)
-                                        .centerCrop()
-                                )
                                 .into(img_poster_belongs);
 
                         tv_title_belongs.setText(item.getBelongsToCollection().getName());
@@ -170,31 +177,19 @@ public class DetailActivity extends AppCompatActivity {
 
                     String companies = "";
                     size = item.getProductionCompanies().size();
-                    for (int i = 0; i < size; i++){
+                    for (int i = 0; i < size; i++) {
                         companies += "√ " + item.getProductionCompanies().get(i).getName() + (i + 1 < size ? "\n" : "");
                     }
                     tv_companies.setText(companies);
 
                     String countries = "";
                     size = item.getProductionCountries().size();
-                    for (int i = 0; i < size; i++ ){
+                    for (int i = 0; i < size; i++) {
                         countries += "√ " + item.getProductionCountries().get(i).getName() + (i + 1 < size ? "\n" : "");
                     }
                     tv_countries.setText(countries);
 
 
-                    double userRating = item.getVoteAverage() / 2;
-                    int integerPart = (int) userRating;
-
-                    // fill stars
-                    for (int i = 0; i < integerPart; i++) {
-                        img_vote.get(i).setImageResource(R.drawable.ic_star_black_24dp);
-                    }
-
-                    //fill half stars
-                    if (Math.round(userRating) > integerPart) {
-                        img_vote.get(integerPart).setImageResource(R.drawable.ic_star_half_black_24dp);
-                    }
                 } else loadFailed();
             }
 

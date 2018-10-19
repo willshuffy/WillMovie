@@ -18,6 +18,7 @@ import com.dicoding.willshuffy.willmovie.R;
 import com.dicoding.willshuffy.willmovie.mvp.model.search.ResultsItem;
 import com.dicoding.willshuffy.willmovie.utils.CustomTextView;
 import com.dicoding.willshuffy.willmovie.utils.DateTime;
+import com.google.gson.Gson;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -61,7 +62,7 @@ public class SearchViewHolder extends RecyclerView.ViewHolder {
             public void onClick(View view) {
 
                 Intent intent = new Intent(itemView.getContext(), DetailActivity.class);
-                intent.putExtra(DetailActivity.MOVIE_ID, String.valueOf(item.getId()));
+                intent.putExtra(DetailActivity.MOVIE_ITEM,new Gson().toJson(item));
 
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
