@@ -21,6 +21,7 @@ import com.dicoding.willshuffy.willmovie.mvp.MainView;
 import com.dicoding.willshuffy.willmovie.mvp.model.search.ResultsItem;
 import com.dicoding.willshuffy.willmovie.mvp.model.search.SearchModel;
 
+import com.dicoding.willshuffy.willmovie.utils.AlarmReceiver;
 import com.dicoding.willshuffy.willmovie.utils.DateTime;
 import com.mancj.materialsearchbar.MaterialSearchBar;
 
@@ -67,11 +68,15 @@ public class MainActivity extends AppCompatActivity
     private int currentPage =1;
     private int totalPages =1;
 
+    private AlarmReceiver alarmReceiver = new AlarmReceiver();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        alarmReceiver.setRepeatingAlarm(this, alarmReceiver.TYPE_REPEATING,  "07:00", "Good morning! Ready to pick your new movies today?");
 
         ButterKnife.bind(   this);
         setSupportActionBar(toolbar);
