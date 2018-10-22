@@ -23,6 +23,7 @@ import com.dicoding.willshuffy.willmovie.mvp.model.search.SearchModel;
 
 import com.dicoding.willshuffy.willmovie.utils.AlarmReceiver;
 import com.dicoding.willshuffy.willmovie.utils.DateTime;
+import com.dicoding.willshuffy.willmovie.utils.upcoming.SchedulerTask;
 import com.mancj.materialsearchbar.MaterialSearchBar;
 
 import java.text.NumberFormat;
@@ -69,6 +70,7 @@ public class MainActivity extends AppCompatActivity
     private int totalPages =1;
 
     private AlarmReceiver alarmReceiver = new AlarmReceiver();
+    private SchedulerTask schedulerTask;
 
 
     @Override
@@ -77,6 +79,10 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
 
         alarmReceiver.setRepeatingAlarm(this, alarmReceiver.TYPE_REPEATING,  "07:00", "Good morning! Ready to pick your new movies today?");
+
+        schedulerTask = new SchedulerTask(this);
+        schedulerTask.createPeriodicTask();
+        
 
         ButterKnife.bind(   this);
         setSupportActionBar(toolbar);
