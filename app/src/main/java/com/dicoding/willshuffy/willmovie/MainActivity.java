@@ -82,7 +82,7 @@ public class MainActivity extends AppCompatActivity
 
         schedulerTask = new SchedulerTask(this);
         schedulerTask.createPeriodicTask();
-        
+
 
         ButterKnife.bind(   this);
         setSupportActionBar(toolbar);
