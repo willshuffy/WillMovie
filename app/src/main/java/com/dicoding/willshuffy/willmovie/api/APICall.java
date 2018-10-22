@@ -2,6 +2,7 @@ package com.dicoding.willshuffy.willmovie.api;
 
 import com.dicoding.willshuffy.willmovie.mvp.model.detail.DetailModel;
 import com.dicoding.willshuffy.willmovie.mvp.model.search.SearchModel;
+import com.dicoding.willshuffy.willmovie.mvp.model.upcoming.UpcomingModel;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -20,5 +21,5 @@ public interface APICall {
     Call<DetailModel> getDetailMovie(@Path("movie_id") String movie_id);
 
     @GET("movie/upcoming")
-    Call<SearchModel> getUpComingMovie();
+    Call<UpcomingModel> getUpComingMovie();
 }
